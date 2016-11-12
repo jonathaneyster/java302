@@ -16,14 +16,19 @@ import com.users.repositories.ContactRepository;
 public class PermissionService
 {
 	@Autowired
-	UserRepository userRepo;
+	private UserRepository userRepository;
 
 	@Autowired
-	ContactRepository contactRepo;
+	private ContactRepository contactRepository;
 
 	private UsernamePasswordAuthenticationToken getToken()
 	{
 		return (UsernamePasswordAuthenticationToken) getContext().getAuthentication();
+	}
+
+	public long findCurrentUserId()
+	{
+		return userRepository.findByEmail(getToken().getName()).get(0).getId();
 	}
 
 	public boolean hasRole(Role role)
@@ -38,19 +43,14 @@ public class PermissionService
 		return false;
 	}
 
-	public boolean canEditUser(long userId)
+	public boolean canAccessUser(long userId)
 	{
-		return hasRole(ADMIN) || (hasRole(USER) && findCurrentUserId() == userId);
-	}
-
-	public long findCurrentUserId()
-	{
-		return userRepo.findByEmail(getToken().getName()).get(0).getId();
+		return hasRole(ROLE_ADMIN) || (hasRole(ROLE_USER) && findCurrentUserId() == userId);
 	}
 
 	public boolean canEditContact(long contactId)
 	{
-		return hasRole(USER) && contactRepo.findByUserIdAndId(findCurrentUserId(), contactId) != null;
+		return hasRole(ROLE_USER) && contactRepository.findByUserIdAndId(findCurrentUserId(), contactId) != null;
 	}
-	//this allows any user to edit their contacts
+	//this allows the user to edit their contacts
 }

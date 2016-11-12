@@ -28,7 +28,11 @@ public class Contact
 	protected Contact()
 	{
 	}
-
+	
+	public Contact(long userId) {
+		this.userId = userId;
+	}
+	
 	public Contact(String firstName, String lastName, String email, String phoneNumber, boolean active, long userId)
 	{
 		this.firstName = firstName;
