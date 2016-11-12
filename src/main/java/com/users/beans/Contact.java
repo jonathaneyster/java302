@@ -24,16 +24,21 @@ public class Contact
 	private String email;
 	private String phoneNumber;
 	private boolean active;
+	private String twitterHandle;
+	private String facebookUrl;
 
 	protected Contact()
 	{
 	}
-	
-	public Contact(long userId) {
+
+	public Contact(long userId)
+	{
 		this.userId = userId;
+		this.active = true;
 	}
-	
-	public Contact(String firstName, String lastName, String email, String phoneNumber, boolean active, long userId)
+
+	public Contact(String firstName, String lastName, String email, String phoneNumber, boolean active, long userId,
+			String twitterHandle, String facebookUrl)
 	{
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -41,16 +46,37 @@ public class Contact
 		this.phoneNumber = phoneNumber;
 		this.active = active;
 		this.userId = userId;
+		this.twitterHandle = twitterHandle;
+		this.facebookUrl = facebookUrl;
 	}
 
 	@Override
 	public String toString()
 	{
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", active=" + active + "]";
+				+ ", phoneNumber=" + phoneNumber + ", active=" + active + ", twitterHandle=" + twitterHandle
+				+ ", facebookUrl=" + facebookUrl + "]";
 	}
-	// the toString method returns all properties of the contact class as a
-	// string
+	//returns information in the contact object as a string
+	public String getTwitterHandle()
+	{
+		return twitterHandle;
+	}
+
+	public void setTwitterHandle(String twitterHandle)
+	{
+		this.twitterHandle = twitterHandle;
+	}
+
+	public String getFacebookUrl()
+	{
+		return facebookUrl;
+	}
+
+	public void setFacebookUrl(String facebookUrl)
+	{
+		this.facebookUrl = facebookUrl;
+	}
 
 	public String getFirstName()
 	{
