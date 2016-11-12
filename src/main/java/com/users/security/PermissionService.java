@@ -8,6 +8,7 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 import static com.users.security.Role.*;
 
 import com.users.repositories.UserRepository;
+import com.users.repositories.ContactRepository;
 
 //The @Service annotation works a lot like component, but is targeted specifically to the service layer
 @Service
@@ -16,6 +17,9 @@ public class PermissionService
 {
 	@Autowired
 	UserRepository userRepo;
+
+	@Autowired
+	ContactRepository contactRepo;
 
 	private UsernamePasswordAuthenticationToken getToken()
 	{
@@ -34,11 +38,19 @@ public class PermissionService
 		return false;
 	}
 
-	//check if the current user has permission to edit information. allows an admin to edit any user, or an user to edit their own information
 	public boolean canEditUser(long userId)
 	{
-		long currentUserId = userRepo.findByEmail(getToken().getName()).get(0).getId();
-		return hasRole(ADMIN) || (hasRole(USER) && currentUserId == userId);
+		return hasRole(ADMIN) || (hasRole(USER) && findCurrentUserId() == userId);
 	}
 
+	public long findCurrentUserId()
+	{
+		return userRepo.findByEmail(getToken().getName()).get(0).getId();
+	}
+
+	public boolean canEditContact(long contactId)
+	{
+		return hasRole(USER) && contactRepo.findByUserIdAndId(findCurrentUserId(), contactId) != null;
+	}
+	//this allows any user to edit their contacts
 }
