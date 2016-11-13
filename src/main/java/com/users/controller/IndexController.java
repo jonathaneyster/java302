@@ -190,4 +190,16 @@ public class IndexController {
 		return "sendMail";
 	}	
 	//This method honestly confuses me, i think its using the properties from the emailservice class and passing them into the localserver.
+	
+	@Secured("ROLE_ADMIN")
+	@RequestMapping(value = "/user/search", method = RequestMethod.POST)
+	public String searchUsers(@RequestParam("search") String search, Model model) {
+		log.debug("Searching by " + search);
+		model.addAttribute("users",
+				userRepo.findByLastNameOrFirstNameOrEmailOrTwitterHandleOrFacebookUrlIgnoreCase(
+						search, search, search, search, search));
+		model.addAttribute("search", search);
+		return "listUsers";
+	}
+	//This is different than the method in the contactcontroller because its for admin acsess so you can search through all the information available.
 }
