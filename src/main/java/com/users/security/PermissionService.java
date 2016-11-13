@@ -54,4 +54,14 @@ public class PermissionService {
 				&& contactRepository.findByUserIdAndId(findCurrentUserId(), contactId) != null;
 	}
 
+	public String getCurrentEmail() {
+		return getToken().getName();
+	}
+	//retruns the token for the getname operator, this is linked to the email
+	
+	public User findCurrentUser() {
+		List<User> users = userRepository.findByEmail(getToken().getName());
+		return users != null && !users.isEmpty() ? users.get(0) : new User();
+	}
+	//find current user returns a new object while findcurrentuserbyid returns a value?
 }
