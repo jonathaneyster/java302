@@ -8,13 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users")
-public class User
+@Table(name = "contacts")
+public class Contact
 {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	private long userId;
 
 	private String firstName;
 	private String lastName;
@@ -22,32 +23,59 @@ public class User
 	@Column(unique = true)
 	private String email;
 	private String phoneNumber;
-	private String password;
+	private boolean active;
 	private String twitterHandle;
 	private String facebookUrl;
 
-	private boolean active;
-
-	public User()
+	protected Contact()
 	{
-		active = true;
 	}
 
-	public User(String firstName, String lastName, String email, String phoneNumber, String password, boolean active)
+	public Contact(long userId)
+	{
+		this.userId = userId;
+		this.active = true;
+	}
+
+	public Contact(String firstName, String lastName, String email, String phoneNumber, boolean active, long userId,
+			String twitterHandle, String facebookUrl)
 	{
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.password = password;
 		this.active = active;
+		this.userId = userId;
+		this.twitterHandle = twitterHandle;
+		this.facebookUrl = facebookUrl;
 	}
 
 	@Override
 	public String toString()
 	{
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", phoneNumber=" + phoneNumber + ", password=" + password + ", active=" + active + "]";
+				+ ", phoneNumber=" + phoneNumber + ", active=" + active + ", twitterHandle=" + twitterHandle
+				+ ", facebookUrl=" + facebookUrl + "]";
+	}
+	//returns information in the contact object as a string
+	public String getTwitterHandle()
+	{
+		return twitterHandle;
+	}
+
+	public void setTwitterHandle(String twitterHandle)
+	{
+		this.twitterHandle = twitterHandle;
+	}
+
+	public String getFacebookUrl()
+	{
+		return facebookUrl;
+	}
+
+	public void setFacebookUrl(String facebookUrl)
+	{
+		this.facebookUrl = facebookUrl;
 	}
 
 	public String getFirstName()
@@ -90,16 +118,6 @@ public class User
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getPassword()
-	{
-		return password;
-	}
-
-	public void setPassword(String password)
-	{
-		this.password = password;
-	}
-
 	public long getId()
 	{
 		return id;
@@ -120,24 +138,14 @@ public class User
 		this.active = active;
 	}
 
-	public String getTwitterHandle()
+	public long getUserId()
 	{
-		return twitterHandle;
+		return userId;
 	}
 
-	public void setTwitterHandle(String twitterHandle)
+	public void setUserId(long userId)
 	{
-		this.twitterHandle = twitterHandle;
-	}
-
-	public String getFacebookUrl()
-	{
-		return facebookUrl;
-	}
-
-	public void setFacebookUrl(String facebookUrl)
-	{
-		this.facebookUrl = facebookUrl;
+		this.userId = userId;
 	}
 
 }

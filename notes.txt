@@ -1,0 +1,3 @@
+The only part I don't really understand at this point is what exactly the @Service annotation does.
+Step3: Things i didnt understand were the hanges in the securityConfig that call the h2console
+Step5: I think it would be good for me to understand the httpsecurity more in depth
